@@ -48,14 +48,13 @@ class WFDBDataset(Dataset):
 
         try:
             annotation = wfdb.rdann(record_path, extension=self.atr_extension)
+            beats = np.array(annotation.symbol)
+            beats_samples = annotations_to_categories(beats, annotation.sample)
         except FileNotFoundError as e:
             print(e)
-            return signal, [], fs, units
+            beats_samples = []
 
-        beats = np.array(annotation.symbol)
-        beats_samples = annotations_to_categories(beats, annotation.sample)
-
-        return signal, beats_samples, fs
+        return signal, beats_samples, fs, units
 
     def info(self, item):
         record_path = Path(self.directory, self.records[item])
