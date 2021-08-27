@@ -56,7 +56,7 @@ class WFDBDataset(Dataset):
 
         return signal, beats_samples, fs, units
 
-    def info(self, item):
-        record_path = Path(self.directory, self.records[item])
+    def record(self, item):
+        record_path = str(Path(self.directory, self.records[item]))
         record = wfdb.rdrecord(record_path)
-        return record.file_name[0]
+        return record
